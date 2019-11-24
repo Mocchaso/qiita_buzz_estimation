@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# TwitterのAPIキー保管ファイル
+config.py
