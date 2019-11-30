@@ -1,4 +1,5 @@
 import json
+import random
 
 trendData = {}
 normalData = {}
@@ -7,23 +8,24 @@ with open("./datasets/qiita_trend_titles.json", "r", encoding="utf-8") as f:
 with open("./datasets/qiita_article_titles.json", "r", encoding="utf-8") as f:
     normalData = json.load(f)
 
-print(len(trendData.keys()))
-print(len(normalData.keys()))
+print(len(trendData))
+print(len(normalData))
 
-idx = 0
-mergedData = {}
-for k, v in trendData.items():
-    mergedData[str(idx)] = {
-        "articleTitle": v["articleTitle"],
+mergedData = []
+for datum in trendData:
+    mergedData.append({
+        "articleTitle": datum["articleTitle"],
         "isTrend": 1
-    }
-    idx += 1
-for k, v in normalData.items():
-    mergedData[str(idx)] = {
-        "articleTitle": v["articleTitle"],
+    })
+for datum in normalData:
+    mergedData.append({
+        "articleTitle": datum["articleTitle"],
         "isTrend": 0
-    }
-    idx += 1
+    })
+
+# 結合結果の順序をシャッフル
+random.shuffle(mergedData)
+print("Finished shuffling 'Merged Article Titles'.")
 
 with open("./datasets/merged_article_titles.json", mode="w", encoding="utf-8") as f:
     json.dump(mergedData, f, indent=4, ensure_ascii=False)
