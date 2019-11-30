@@ -12,7 +12,7 @@ t = Twitter(auth=OAuth(
 ))
 
 # トレンド記事タイトルの収集
-trendArticleTitles = {}
+trendArticleTitles = []
 retrieveCount = 200
 totalIdx = 0
 qiitaTrendAccount = "qiitapoi"
@@ -54,7 +54,7 @@ def addArticleTitles(tweet):
     tmpTitle = ''.join(s for s in tmpTitle if s not in emoji.UNICODE_EMOJI)
     articleTitle = tmpTitle[:len(tmpTitle)-1] # 末尾の半角スペースを除去
     datum = {"articleTitle": articleTitle}
-    trendArticleTitles[totalIdx] = datum
+    trendArticleTitles.append(datum)
 
 retrieveTweets(qiitaTrendAccount, retrieveCount)
 

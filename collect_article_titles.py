@@ -12,7 +12,7 @@ notBuzzThreshold = 10
 per_page = 100
 
 # バズっていない記事のタイトルを収集
-articleTitles = {}
+articleTitles = []
 idx = 0
 print("Starting collecting article titles...")
 for page in range(3, 101):
@@ -23,7 +23,7 @@ for page in range(3, 101):
     for article in resJson:
         if article.get("likes_count") < notBuzzThreshold:
             title = article.get("title")
-            articleTitles[idx] = {"articleTitle": title}
+            articleTitles.append({"articleTitle": title})
             print("{}th article title = {}, url = {}".format(idx, title, article["url"]))
             idx += 1
 print("Finished collecting {} qiita_article_titles.".format(idx))
