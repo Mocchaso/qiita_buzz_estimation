@@ -1,4 +1,5 @@
 import json
+import random
 
 trendData = {}
 normalData = {}
@@ -21,6 +22,10 @@ for datum in normalData:
         "articleTitle": datum["articleTitle"],
         "isTrend": 0
     })
+
+# 結合結果の順序をシャッフル
+random.shuffle(mergedData)
+print("Finished shuffling 'Merged Article Titles'.")
 
 with open("./datasets/merged_article_titles.json", mode="w", encoding="utf-8") as f:
     json.dump(mergedData, f, indent=4, ensure_ascii=False)
