@@ -1,8 +1,18 @@
+import MeCab
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
+
+tagger = MeCab.Tagger("mecabrc")
+def extractWords(text):
+    words = []
+    analyzedResults = tagger.parse(text).split("\n")
+    for result in analyzedResults:
+        splittedWord = result.split(",")[0].split("\t")[0]
+        words.append(splittedWord)
+    return words
 
 # 記事データ読み込み
 df = pd.read_json("./datasets/merged_article_titles.json", encoding="utf-8")
@@ -15,7 +25,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, train_size=0.7, test_s
 
 # テキストデータのベクトル化（特徴量の抽出）
 # 単語の出現回数
-vecCount = CountVectorizer(min_df=3)
+vecCount = CountVectorizer(analyzer=extractWords, min_df=3)
 vecCount.fit(X_train["articleTitle"])
 # 単語の種類
 print("word size: ", len(vecCount.vocabulary_))
@@ -48,7 +58,7 @@ df_data = pd.DataFrame(data, columns=["articleTitle"])
 inputVec = vecCount.transform(df_data["articleTitle"])
 # ベクトル化データを表示
 print("ベクトル化データを表示")
-print(pd.DataFrame(inputVec.toarray(), columns= vecCount.get_feature_names()))
+print(pd.DataFrame(inputVec.toarray(), columns=vecCount.get_feature_names()))
 # 予測結果
 print("予測結果")
 print(model.predict(inputVec))
