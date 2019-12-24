@@ -5,13 +5,24 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
 
+def getStopWords():
+    stopWords = []
+    with open("./datasets/Japanese.txt", mode="r", encoding="utf-8") as f:
+        for word in f:
+            if word != "\n":
+                stopWords.append(word.rstrip("\n"))
+    print("amount of stopWords = {}".format(len(stopWords)))
+    return stopWords
+
+stopWords = getStopWords()
 tagger = MeCab.Tagger("mecabrc")
 def extractWords(text):
     words = []
     analyzedResults = tagger.parse(text).split("\n")
     for result in analyzedResults:
         splittedWord = result.split(",")[0].split("\t")[0]
-        words.append(splittedWord)
+        if not splittedWord in stopWords:
+            words.append(splittedWord)
     return words
 
 # 記事データ読み込み
