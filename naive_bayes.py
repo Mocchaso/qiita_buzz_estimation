@@ -80,3 +80,5 @@ print(pd.DataFrame(inputVec.toarray(), columns=vecCount.get_feature_names()))
 # 予測結果
 print("予測結果")
 print(model.predict(inputVec))
+print("各クラスの分類確率")
+print(model.predict_proba(inputVec))
