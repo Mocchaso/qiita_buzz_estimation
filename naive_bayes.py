@@ -1,4 +1,5 @@
 import MeCab
+import emoji
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -14,9 +15,13 @@ def getStopWords():
     print("amount of stopWords = {}".format(len(stopWords)))
     return stopWords
 
+def removeEmoji(text):
+    return "".join(ch for ch in text if ch not in emoji.UNICODE_EMOJI)
+
 stopWords = getStopWords()
 tagger = MeCab.Tagger("mecabrc")
 def extractWords(text):
+    text = removeEmoji(text)
     words = []
     analyzedResults = tagger.parse(text).split("\n")
     for result in analyzedResults:
