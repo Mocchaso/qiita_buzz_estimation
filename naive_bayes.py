@@ -1,5 +1,6 @@
 import MeCab
 import emoji
+import neologdn
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -22,6 +23,7 @@ stopWords = getStopWords()
 tagger = MeCab.Tagger("mecabrc")
 def extractWords(text):
     text = removeEmoji(text)
+    text = neologdn.normalize(text)
     words = []
     analyzedResults = tagger.parse(text).split("\n")
     for result in analyzedResults:
